@@ -18,7 +18,7 @@ let startOpacity = 0;
 let gameState = "standby";
 
 function setup() {
-    createCanvas(900, 700);
+    createCanvas(1280, 720);
     angleMode(DEGREES);
     textAlign(CENTER, CENTER);
     textFont("monospace");

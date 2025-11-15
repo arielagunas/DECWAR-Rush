@@ -11,7 +11,11 @@ let projectiles = [];
 let glowColor;
 let baseRadius = 100;
 let enemyCount = 5;
-let gameState = "playing";
+
+let startOpacity = 0;
+
+// standby, playing, win, lose
+let gameState = "standby";
 
 function setup() {
     createCanvas(900, 700);
@@ -37,6 +41,11 @@ function draw() {
     drawingContext.shadowColor = glowColor;
 
     if (gameState === "playing") {
+	if (gameState === "standby") {
+		displayStartScreen();
+	}
+	
+    else if (gameState === "playing") {
         base.update();
         base.display();
 
@@ -88,16 +97,25 @@ function keyPressed() {
         projectiles.push(new Projectile(player.x, player.y, player.angle));
     }
 
+	if (key === 'Enter') {
+		if (gameState === "standby") {
+			gameState = "playing";
+		}
+	}
+
     if (key === 'R' || key === 'r') {
         restartGame();
     }
 }
 
 function restartGame() {
-    enemies = [];
-    projectiles = [];
-    spawnEnemies(enemyCount);
-    gameState = "playing";
+	if (gameState === "lose" || gameState === "win") {
+		enemies = [];
+		projectiles = [];
+		spawnEnemies(enemyCount);
+		gameState = "playing";
+	}
+    
 }
 
 function spawnEnemies(n) {
@@ -111,6 +129,24 @@ function spawnEnemies(n) {
 
         enemies.push(new Enemy(x, y, width / 2, height / 2));
     }
+}
+
+function displayStartScreen() {
+
+	if (startOpacity < 100) {
+		startOpacity++;
+	}
+	fill(glowColor);
+	textSize(48);
+	text("DECWARS Rush", width / 2, height / 2);
+	textSize(24);
+
+	fill(color(255, 140, 0, startOpacity));
+	text("Control with the Left and Right keys", width / 2, height / 2 + 60);
+	text("Spacebar to shoot", width / 2, height / 2 + 100);
+
+	text("Press ENTER to start", width / 2, height / 2 + 200);
+
 }
 
 function displayEndScreen() {

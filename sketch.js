@@ -169,6 +169,9 @@ function displayEndScreen() {
     textSize(48);
     if (gameState === "lose") {
         text("YOU LOSE", width / 2, height / 2);
+		
+		// reset game back to level 1
+		gameLevel = 1;
     }
     textSize(24);
     text("Press R to Restart", width / 2, height / 2 + 60);

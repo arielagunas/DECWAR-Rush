@@ -10,12 +10,13 @@ let enemies = [];
 let projectiles = [];
 let glowColor;
 let baseRadius = 100;
-let enemyCount = 5;
+let enemyCount = 1;
 
 let startOpacity = 0;
 
 // standby, playing, win, lose
 let gameState = "standby";
+let gameLevel = 1;
 
 function setup() {
     createCanvas(1280, 720);
@@ -49,6 +50,7 @@ function draw() {
         base.update();
         base.display();
 
+		displayHUD();
         player.update();
         player.display();
 
@@ -81,7 +83,8 @@ function draw() {
 
         // Check win condition
         if (enemies.length === 0) {
-            gameState = "win";
+			gameLevel++;
+			startLevel(gameLevel);
         }
 
     } else {
@@ -90,6 +93,14 @@ function draw() {
 
     // Add CRT-style scanlines (optional aesthetic)
     addScanlines();
+}
+
+function displayHUD() {
+	textSize(18);
+
+	hudString = "Level " + gameLevel
+	
+    text(hudString, width / 2, height / 9 );
 }
 
 function keyPressed() {
@@ -106,6 +117,12 @@ function keyPressed() {
     if (key === 'R' || key === 'r') {
         restartGame();
     }
+}
+
+function startLevel(level) {
+	enemies = [];
+	projectiles = [];
+	spawnEnemies(level);
 }
 
 function restartGame() {
@@ -152,9 +169,7 @@ function displayStartScreen() {
 function displayEndScreen() {
     fill(glowColor);
     textSize(48);
-    if (gameState === "win") {
-        text("YOU WIN", width / 2, height / 2);
-    } else if (gameState === "lose") {
+    if (gameState === "lose") {
         text("YOU LOSE", width / 2, height / 2);
     }
     textSize(24);

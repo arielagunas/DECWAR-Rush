@@ -10,7 +10,7 @@ let enemies = [];
 let projectiles = [];
 let glowColor;
 let baseRadius = 100;
-let enemyCount = 1;
+let enemyCount = 3;
 
 let startOpacity = 0;
 
@@ -118,9 +118,10 @@ function keyPressed() {
 }
 
 function startLevel(level) {
+    let enemyCountNew = floor(3 + Math.log(level) * 0.5);
 	enemies = [];
 	projectiles = [];
-	spawnEnemies(level);
+	spawnEnemies(enemyCountNew);
 }
 
 function restartGame() {

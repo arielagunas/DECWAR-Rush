@@ -41,7 +41,6 @@ function draw() {
     drawingContext.shadowBlur = 20;
     drawingContext.shadowColor = glowColor;
 
-    if (gameState === "playing") {
 	if (gameState === "standby") {
 		displayStartScreen();
 	}
@@ -49,11 +48,10 @@ function draw() {
     else if (gameState === "playing") {
         base.update();
         base.display();
-
 		displayHUD();
         player.update();
         player.display();
-
+		player.drawAimLine();
         for (let p of projectiles) {
             p.update();
             p.display();

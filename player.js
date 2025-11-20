@@ -54,7 +54,7 @@ class Player {
 
 		translate(this.x, this.y);
 
-		const len = 700;
+		const len = 1000;
 		line(0, 0, len * cos(this.angle), len * sin(this.angle));
 
 		pop();

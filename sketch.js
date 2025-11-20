@@ -185,7 +185,7 @@ function spawnEnemies(n) {
 		if (random() < 0.8) {
 			enemy = new DotEnemy(x, y, width / 2, height / 2);
 		} else {
-			enemy = new SupernovaEnemy(x, y, width / 2, height / 2);
+			enemy = new Blackhole(x, y, width / 2, height / 2);
 		}
 
 		enemies.push(enemy);

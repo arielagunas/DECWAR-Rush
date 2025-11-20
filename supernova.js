@@ -5,9 +5,19 @@ class SupernovaEnemy {
         this.tx = tx;
         this.ty = ty;
 		this.size = 150;
-		this.speed = random(0.2, 0.8);
+		this.speed = random(0.2, 0.4);
 		this.alive = true;
 		this.health = 50;
+
+		this.dir = 1; // direction of pulse
+		this.acc = 10  // speed the color increases
+
+		this.col = 150;
+		this.color = color(255, 140, 0); // bright plasma orange
+
+		this.cx = x
+		this.cy = y;
+		this.csize = 0;
 	}
 
 	update() {

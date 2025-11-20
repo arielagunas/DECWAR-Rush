@@ -142,9 +142,17 @@ function spawnEnemies(n) {
         else if (side === 1) x = width, y = random(height);
         else if (side === 2) x = random(width), y = height;
         else x = 0, y = random(height);
+		let enemy;
 
-        enemies.push(new Enemy(x, y, width / 2, height / 2));
-    }
+		if (random() < 0.8) {
+			enemy = new DotEnemy(x, y, width / 2, height / 2);
+		} else {
+			enemy = new SupernovaEnemy(x, y, width / 2, height / 2);
+		}
+
+		enemies.push(enemy);
+
+	}
 }
 
 function displayStartScreen() {

@@ -1,4 +1,4 @@
-class Enemy {
+class DotEnemy {
     constructor(x, y, tx, ty) {
         this.x = x;
         this.y = y;

@@ -23,7 +23,7 @@ class Projectile {
                 distSq = max(distSq, 50);       
 
                 // gravitational strength (tweak 20000 for more/less pull)
-                let strength = 10000 / distSq;
+                let strength = 20000 / distSq;
 
                 dir.setMag(strength);
 

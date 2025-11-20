@@ -8,7 +8,7 @@ class SupernovaEnemy {
 		this.size = 150;
 		this.speed = random(0.2, 0.4);
 		this.alive = true;
-		this.health = 50;
+		this.health = 150;
 
 		this.dir = 1; // direction of pulse
 		this.acc = 10  // speed the color increases
@@ -34,7 +34,7 @@ class SupernovaEnemy {
 			// grow explosion
 			this.csize += 5;   // speed of expansion
 
-			if (this.csize >= 300) {
+			if (this.csize >= 400) {
 				this.alive = false;   // officially dead
 			}
 		}
@@ -51,7 +51,7 @@ class SupernovaEnemy {
 		fill(this.color);
 		ellipse(this.x, this.y, this.size);
 
-		if (this.health < 25) {
+		if (this.health < 75) {
 			this.displayFill();
 		}
 

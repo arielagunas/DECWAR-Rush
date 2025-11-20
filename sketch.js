@@ -34,10 +34,10 @@ function setup() {
 }
 
 function draw() {
-    // Create motion blur effect
+    // motion blur effect
     background(0, 50);
 
-    // Enable glow effect
+    // enable glow effect
     drawingContext.shadowBlur = 20;
     drawingContext.shadowColor = glowColor;
 
@@ -61,16 +61,34 @@ function draw() {
             e.update();
             e.display();
 
-            // Check for collision with base
+            // check for collision with base
             if (dist(e.x, e.y, base.x, base.y) < base.size / 2) {
                 gameState = "lose";
             }
 
+			if (e instanceof SupernovaEnemy && e.health <= 0) {
+
+				let blastRadius = e.csize / 2;      // explosion radius
+				let baseRadius  = base.size / 2;    // base radius
+
+				if (dist(e.cx, e.cy, base.x, base.y) < blastRadius + baseRadius) {
+					gameState = "lose";
+				}
+			}
+
             // Check for collisions with projectiles
             for (let p of projectiles) {
                 if (dist(e.x, e.y, p.x, p.y) < e.size / 2) {
-                    e.alive = false;
-                    p.alive = false;
+
+					if (e instanceof DotEnemy) {
+						e.alive = false;
+						p.alive = false;
+					}
+					else if (e instanceof SupernovaEnemy) {
+						console.log("Supernova hit!");
+
+						e.decreaseHealth();
+					}
                 }
             }
         }

@@ -117,6 +117,13 @@ function draw() {
         enemies = enemies.filter(e => e.alive);
         projectiles = projectiles.filter(p => p.alive);
 
+		// resume game if all that is left is the blackhole
+		let others = enemies.filter(e => !(e instanceof Blackhole) && e.alive);
+		if (others.length === 0) {
+			gameLevel++;
+			startLevel(gameLevel);
+		}
+
         // Check win condition
         if (enemies.length === 0) {
 			gameLevel++;
@@ -156,10 +163,12 @@ function keyPressed() {
 }
 
 function startLevel(level) {
-    let enemyCountNew = floor(3 + Math.log(level) * 0.5);
-	enemies = [];
-	projectiles = [];
-	spawnEnemies(enemyCountNew);
+    enemies = [];
+    projectiles = [];
+
+    // slow, steady increase
+	let enemyCountNew = floor(2 + pow(level, 0.55));
+	spawnEnemies(enemyCountNew, level);
 }
 
 function restartGame() {
@@ -172,25 +181,54 @@ function restartGame() {
     
 }
 
-function spawnEnemies(n) {
+function spawnEnemies(n, level) {
+    let blackholeExists = enemies.some(e => e instanceof Blackhole);
+
     for (let i = 0; i < n; i++) {
+
+        // spawn position
         let side = floor(random(4));
         let x, y;
-        if (side === 0) x = random(width), y = 0;
-        else if (side === 1) x = width, y = random(height);
-        else if (side === 2) x = random(width), y = height;
-        else x = 0, y = random(height);
-		let enemy;
+        if (side === 0)      { x = random(width); y = 0; }
+        else if (side === 1) { x = width; y = random(height); }
+        else if (side === 2) { x = random(width); y = height; }
+        else                 { x = 0; y = random(height); }
 
-		if (random() < 0.8) {
-			enemy = new DotEnemy(x, y, width / 2, height / 2);
-		} else {
-			enemy = new Blackhole(x, y, width / 2, height / 2);
-		}
+        // ------- ENEMY SELECTION LOGIC --------
+        let enemy;
 
-		enemies.push(enemy);
+        if (level < 2) {
+            // ONLY DotEnemies early game
+            enemy = new DotEnemy(x, y, width / 2, height / 2);
 
-	}
+        } else if (level < 4) {
+            // Introduce Supernova with small chance
+            if (random() < 0.2) {
+                enemy = new SupernovaEnemy(x, y, width / 2, height / 2);
+            } else {
+                enemy = new DotEnemy(x, y, width / 2, height / 2);
+            }
+
+        } else {
+            // Late game: include all types, but max 1 Blackhole
+            let roll = random();
+
+            if (!blackholeExists && roll < 0.05) {
+                // 5% chance to spawn a blackhole *if none exists*
+                enemy = new Blackhole(x, y, width / 2, height / 2);
+                blackholeExists = true;
+
+            } else if (roll < 0.25) {
+                // 20% supernova
+                enemy = new SupernovaEnemy(x, y, width / 2, height / 2);
+            } else {
+                // rest DotEnemies
+                enemy = new DotEnemy(x, y, width / 2, height / 2);
+            }
+        }
+
+        enemies.push(enemy);
+    }
 }
 
 function displayStartScreen() {

@@ -4,8 +4,8 @@ class DotEnemy {
         this.y = y;
         this.tx = tx;
         this.ty = ty;
-        this.size = 25;
-        this.speed = random(0.5, 0.8);
+        this.size = 35;
+        this.speed = random(0.5, 0.7);
         this.alive = true;
     }
 

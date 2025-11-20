@@ -19,7 +19,7 @@ let gameState = "standby";
 let gameLevel = 1;
 
 function setup() {
-    createCanvas(1280, 720);
+    createCanvas(windowWidth, windowHeight);
     angleMode(DEGREES);
     textAlign(CENTER, CENTER);
     textFont("monospace");
@@ -112,6 +112,8 @@ function draw() {
                 }
             }
         }
+
+		
 
         // Remove dead entities
         enemies = enemies.filter(e => e.alive);
@@ -268,4 +270,10 @@ function addScanlines() {
     for (let y = 0; y < height; y += 4) {
         line(0, y, width, y);
     }
+}
+
+
+function windowResized() {
+  // Resize the canvas to the new window dimensions
+  resizeCanvas(windowWidth, windowHeight);
 }

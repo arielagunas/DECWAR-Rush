@@ -5,7 +5,7 @@ class Blackhole {
         this.tx = tx;
         this.ty = ty;
         this.size = 200;
-        this.speed = random(0.5, 0.8);
+        this.speed = random(0.2, 0.3);
 		this.alive = true;
 	}
 
@@ -20,7 +20,7 @@ class Blackhole {
         stroke(255);
 		fill(0);
         ellipse(this.x, this.y, this.size);
-		fill(255);
-		text(this.y, this.x, this.y);
+		// fill(255);
+		// text(this.y, this.x, this.y);
     }
 }

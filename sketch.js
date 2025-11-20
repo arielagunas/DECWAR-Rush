@@ -67,12 +67,32 @@ function draw() {
             }
 
 			if (e instanceof SupernovaEnemy && e.health <= 0) {
+				let blastRadius = e.csize / 2;
 
-				let blastRadius = e.csize / 2;      // explosion radius
 				let baseRadius  = base.size / 2;    // base radius
 
 				if (dist(e.cx, e.cy, base.x, base.y) < blastRadius + baseRadius) {
 					gameState = "lose";
+				}
+
+				for (let other of enemies) {
+					if (other !== e) { // don't compare with itself
+
+						let otherRadius = other.size / 2;
+
+						// if shockwave overlaps another enemy
+						if (dist(e.cx, e.cy, other.x, other.y) < blastRadius + otherRadius) {
+
+							if (other instanceof DotEnemy) {
+								other.alive = false;
+							}
+
+							// supernovas chain-react (optional)
+							if (other instanceof SupernovaEnemy && other.health > 0) {
+								other.health = 0; // triggers THEIR explosion
+							}
+						}
+					}
 				}
 			}
 
